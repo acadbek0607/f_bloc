@@ -1,13 +1,9 @@
-import 'dart:convert';
 import 'dart:ui';
 import 'package:f_bloc/home/presentation/bloc/weather_bloc.dart';
 import 'package:f_bloc/home/presentation/widgets/additional_info_widget.dart';
-import 'package:f_bloc/home/presentation/widgets/hourly_forecast_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:f_bloc/core/api/secrets.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({super.key});
@@ -113,27 +109,31 @@ class _WeatherPageState extends State<WeatherPage> {
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
-                /*SizedBox(
+                SizedBox(
                   height: 120,
-                  child: ListView.builder(
-                    itemCount: 5,
+                  child: ListView(
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      final hForecast = data['list'][index + 1];
-                      final hSky = hForecast['weather'][0]['main'];
-                      final hTemp = (hForecast['main']['temp'] - 273.15)
-                          .toString();
-                      final hTime = DateTime.parse(hForecast['dt_txt']);
-                      return HourlyForecastWidget(
-                        time: DateFormat('h:mm a').format(hTime),
-                        temperature: hTemp,
-                        icon: hSky == 'Clouds' || hSky == 'Rain'
-                            ? Icons.cloud
-                            : Icons.wb_sunny,
-                      );
-                    },
+                    children: [
+                      AdditionalInfoWidget(
+                        icon: Icons.water_drop,
+                        label: 'Humidity',
+                        value: '${data.cHumidity}%',
+                      ),
+                      const SizedBox(width: 16),
+                      AdditionalInfoWidget(
+                        icon: Icons.air,
+                        label: 'Wind',
+                        value: '${data.cWindSpeed} m/s',
+                      ),
+                      const SizedBox(width: 16),
+                      AdditionalInfoWidget(
+                        icon: Icons.speed,
+                        label: 'Pressure',
+                        value: '${data.cPressure} hPa',
+                      ),
+                    ],
                   ),
-                ),*/
+                ),
                 const SizedBox(height: 20),
                 const Text(
                   'Additional Information',
